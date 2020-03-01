@@ -1,0 +1,10 @@
+name 'Default'
+maintainer 'Henry Akinola'
+maintainer_email 'henryakinola59@gmail.com'
+licence 'elasticsearch'
+description  'Installs default packages'
+long_description 'Install default packages to nodes added to the cluster and updates the OS'
+version '0.0.1'
+
+supports 'centos8'
+recipe 'default::default', 'Installs latest Elasticsearch version (currently:7.6)'
