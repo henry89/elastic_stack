@@ -1,10 +1,10 @@
 package 'tree'
 
 execute 'yum_update_upgrade' do
-    command 'sudo yum update && sudo yum upgrade'
+    command 'sudo yum update -y && sudo yum upgrade -y'
 end
 
-template '/etc/modtd' do 
+template '/etc/motd' do 
     source 'etc/motd.erb'
     variables(
         :teamname => 'Operational Analytics'
@@ -13,7 +13,3 @@ template '/etc/modtd' do
     owner 'root'
     group 'root'
 end
-
-
-
-

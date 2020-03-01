@@ -1,16 +1,16 @@
 #Elastic
 servers: 
-  - name: elk01
+  - name: elk01.lab
     ip: 10.10.10.10
     cpu: 1
     memory: 2048
 
-  - name: logs01
+  - name: logs01.lab
     ip: 10.10.10.20
     cpu: 1
     memory: 1024
 
-  - name: kib01
+  - name: kib01.lab
     ip: 10.10.10.30
     cpu: 1
     memory: 1024

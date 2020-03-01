@@ -1,4 +1,4 @@
-name 'Kibana'
+name 'kibana'
 maintainer 'Henry Akinola'
 maintainer_email 'henryakinola59@gmail.com'
 licence 'elasticsearch'
@@ -7,4 +7,4 @@ long_description 'Install Kibana, updates the configuration with what is found i
 version '0.0.1'
 
 supports 'centos8'
-recipe 'Kibana::Kibana', 'Installs latest Kibana version (currently:7.6)'
+recipe 'kibana::kibana_build', 'Installs latest Kibana version (currently:7.6)'

@@ -7,4 +7,4 @@ long_description 'Install logstash, updates the configuration with what is found
 version '0.0.1'
 
 supports 'centos8'
-recipe 'logstash::logstash', 'Installs latest logstash version (currently:7.6)'
+recipe 'logstash::logstash_build', 'Installs latest logstash version (currently:7.6)'

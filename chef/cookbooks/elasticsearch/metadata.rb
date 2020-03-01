@@ -1,4 +1,4 @@
-name 'Elasticsearch'
+name 'elasticsearch'
 maintainer 'Henry Akinola'
 maintainer_email 'henryakinola59@gmail.com'
 licence 'elasticsearch'
@@ -7,4 +7,4 @@ long_description 'Install Elasticsearch, updates the configuration with what is 
 version '0.0.1'
 
 supports 'centos8'
-recipe 'elasticsearch::elasticsearch', 'Installs latest Elasticsearch version (currently:7.6)'
+recipe 'elasticsearch::elasticsearch_build', 'Installs latest Elasticsearch version (currently:7.6)'

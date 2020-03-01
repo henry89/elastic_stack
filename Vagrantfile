@@ -4,27 +4,24 @@
 #yaml module required for importing the settings stored in servers.yml
 require "yaml"
 
-servers = YAML.load_file("./servers/servers.yml")
-
-gem install berkself;
-
+servers = YAML.load_file("./files/servers.yml")
 
 Vagrant.configure("2") do |config|
   
-  config.vagrant.plugins = vagrant-berkshelf -f
+  config.vagrant.plugins =["vagrant-berkshelf", "vagrant-omnibus"]
   
   # force update
   config.vbguest.auto_update = true
-
   config.omnibus.chef_version = :latest
 
   #enable berkself by supplying path
   config.berkshelf.berksfile_path = './files/berkshelf'
 
   ### Web servers ###
-  servers["webservers"].each do |host|
-    config.vm.box = "centos/8"
-    config.vm.box_version = "1905.1"
+  servers["servers"].each do |host|
+    config.vm.box = "bento/centos-7"
+    #not working when version is specified, was for centos/8
+      #config.vm.box_version = "1905.1"
     config.vm.define host['name'] do |define|
       define.vm.hostname = host['name']
       define.vm.provider "virtualbox" do |vb|
@@ -33,7 +30,7 @@ Vagrant.configure("2") do |config|
         vb.memory = host['memory']
       end
       define.vm.network "private_network", ip: host['ip']
-      if host['name'] =~ '/kib/'
+      if host['name'] =~ /kib/
         config.vm.network "forwarded_port", guest: 80, host: 5601, host_ip: "10.10.10.30"
       end
       define.ssh.forward_agent = true
@@ -42,14 +39,13 @@ Vagrant.configure("2") do |config|
         chef.provisioning_path = "/var/chef"
         chef.cookbooks_path = ["chef/cookbooks"]
         chef.roles_path = "chef/roles"
-        chef.add_role  ('default')
-        if host['name'] =~ '/kib/'
+        if host['name'] =~ /kib/
           chef.add_role  ('kibana')
         end
-        if host['name'] =~ '/elk/'
+        if host['name'] =~ /elk/
           chef.add_role  ('elasticsearch')
         end
-        if host['name'] =~ '/logs/'
+        if host['name'] =~ /logs/
           chef.add_role  ('logstash')
         end
       end
