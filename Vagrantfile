@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   #enable berkself by supplying path
   config.berkshelf.berksfile_path = './files/berkshelf'
 
-  ### Web servers ###
+  ### servers ###
   servers["servers"].each do |host|
     config.vm.box = "bento/centos-7"
     #not working when version is specified, was for centos/8
