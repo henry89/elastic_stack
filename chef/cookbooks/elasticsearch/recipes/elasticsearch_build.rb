@@ -24,16 +24,21 @@ execute 'daemon-reload' do
     notifies :restart, 'service[elasticsearch.service]', :immediately
 end
 
-#elasticsearch service
+# elasticsearch service
 service 'elasticsearch.service' do 
     supports :status => true, :restart => true, :reload => true
+end
+
+# update the elasticsearch configuration
+template '/etc/elasticsearch/elasticsearch.yml' do 
+    source 'etc/elasticsearch/elasticsearch.yml.erb'
+    notifies :run, 'execute[daemon-reload]', :immediately
 end
 
 #checks elastic is running
 execute 'check_elasticsearch_port_9200' do 
     command 'curl -XGET 127.0.0.1:9200?pretty'
 end
-
 
 #open ports
 # firewall_rule 'elasticsearch' do 
@@ -56,6 +61,8 @@ execute 'allow_ports' do
     notifies :restart, 'service[firewalld]', :immediately
 end
 
+
+### updating the jvmp option file (not required atm), will use default for now
 
 
 
