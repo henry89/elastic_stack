@@ -1,0 +1,10 @@
+name 'Kibana'
+maintainer 'Henry Akinola'
+maintainer_email 'henryakinola59@gmail.com'
+licence 'elasticsearch'
+description  'Installs Kibana and applies required configurations'
+long_description 'Install Kibana, updates the configuration with what is found in the templates diretcory'
+version '0.0.1'
+
+supports 'centos8'
+recipe 'Kibana::Kibana', 'Installs latest Kibana version (currently:7.6)'
