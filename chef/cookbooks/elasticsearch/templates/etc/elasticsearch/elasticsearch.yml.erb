@@ -25,6 +25,9 @@ node.name: <%= node['hostname'] %>
 # Add custom attributes to the node:
 #
 #node.attr.rack: r1
+node.master: true
+node.data: true
+node.ingest: true
 #
 # ----------------------------------- Paths ------------------------------------
 #
@@ -58,6 +61,7 @@ http.host: 0.0.0.0
 # Set a custom port for HTTP:
 #
 http.port: 9200
+http.max_content_length: 1000mb
 #
 # For more information, consult the network module documentation.
 #
@@ -78,7 +82,7 @@ http.port: 9200
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
 #
-#gateway.recover_after_nodes: 3
+gateway.recover_after_nodes: 1
 #
 # For more information, consult the gateway module documentation.
 #
@@ -87,3 +91,6 @@ http.port: 9200
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+thread_pool.write.queue_size: 1000
+script.painless.regex.enabled: true
+indices.query.bool.max_clause_count: 10240
