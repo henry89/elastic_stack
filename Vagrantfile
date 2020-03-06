@@ -30,9 +30,9 @@ Vagrant.configure("2") do |config|
         vb.memory = host['memory']
       end
       define.vm.network "private_network", ip: host['ip']
-      if host['name'] =~ /kib/
-        config.vm.network "forwarded_port", guest: 80, host: 5601, host_ip: "10.10.10.30"
-      end
+      # if host['name'] =~ /kib/
+      #   config.vm.network "forwarded_port", guest: 80, host: 5601, host_ip: "10.10.10.30"
+      # end
       define.ssh.forward_agent = true
       define.vm.provision "chef_solo" do |chef|
         chef.arguments = "--chef-license accept"

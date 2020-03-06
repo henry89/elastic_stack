@@ -4,7 +4,7 @@ maintainer_email 'henryakinola59@gmail.com'
 licence 'elasticsearch'
 description  'Installs logstash and applies required configurations'
 long_description 'Install logstash, updates the configuration with what is found in the templates diretcory'
-version '0.0.1'
+version '0.0.2'
 
 supports 'centos8'
 recipe 'logstash::logstash_build', 'Installs latest logstash version (currently:7.6)'

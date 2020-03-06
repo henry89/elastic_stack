@@ -4,7 +4,7 @@ maintainer_email 'henryakinola59@gmail.com'
 licence 'elasticsearch'
 description  'Installs Elasticsearch and applies required configurations'
 long_description 'Install Elasticsearch, updates the configuration with what is found in the templates diretcory'
-version '0.0.1'
+version '0.1.4'
 
 supports 'centos8'
 recipe 'elasticsearch::elasticsearch_build', 'Installs latest Elasticsearch version (currently:7.6)'
