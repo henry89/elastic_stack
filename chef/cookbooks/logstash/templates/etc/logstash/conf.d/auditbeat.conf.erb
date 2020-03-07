@@ -1,0 +1,32 @@
+### INPUT SECTION ###
+### This section make Logstash to listen on port 5044 for incoming logs.
+input {
+  beats {
+    port => 5044
+  }
+}
+
+### FILTER SECTION ###
+### This section parse the logs before sending them to Elasticsearch.
+filter {
+if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGLINE}" }
+    }
+    date {
+match => [ "timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+}
+}
+}
+
+### OUTPUT SECTION ###
+### This section defines the storage for the logs to be stored.
+output {
+  elasticsearch {
+    #currently hardcoding the elasticsearch ip, will set up env vars  
+    hosts => ["http://10.10.10.10:9200"]
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.DD}"
+    document_type => "%{[@metadata][type]}"
+  }
+}
