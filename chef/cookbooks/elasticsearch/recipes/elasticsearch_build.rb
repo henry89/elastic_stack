@@ -52,25 +52,9 @@ end
 
 #checks elastic is running
 execute 'check_elasticsearch_port_9200' do 
-    command 'curl -XGET -u elastic:changeme 127.0.0.1:9200?pretty'
+    command 'curl -XGET  127.0.0.1:9200?pretty'
     action :nothing
 end
-
-#check password has been set
-execute 'confirm_new_password_set' do 
-    command 'curl -XGET -u elastic:elastic 127.0.0.1:9200?pretty'
-    action :nothing
-end
-
-#change elastic user password
-execute 'change_elastic_user_password' do 
-    # credentials = ['elastic'=>'elastic', 'kibana'=>'kibana', 'logstash_system' => 'logstash', 'apm_system' => 'apmsystem', 'remote_monitor_user'=>'monitor', 'beats_system' => 'beats'];
-    command 'curl -XPUT -u elastic:changeme 127.0.0.1:9200/_xpack/security/user/elastic/_password pretty -H Content-Type: application/json -d {"password": "elastic"}'
-    action :run
-    notifies :run, 'execute[confirm_new_password_set]', :immediately
-end
-
-
 
 
 =begin
@@ -81,7 +65,7 @@ end
 service 'firewalld' do 
     supports :status => true, :restart => true, :reload => true
     action [ :enable, :start ]
-    notifies :run, 'execute[daemon-reload]', :immediately
+    notifies :restart, 'service[elasticsearch.service]', :immediately
 end
 
 # not required as the install of elastic opens that port automatically
