@@ -1,5 +1,7 @@
 package 'tree'
 
+package 'net-tools'
+
 execute 'yum_update_upgrade' do
     command 'sudo yum update -y && sudo yum upgrade -y'
 end

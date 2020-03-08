@@ -34,13 +34,12 @@ end
 template '/etc/elasticsearch/elasticsearch.yml' do 
     source 'etc/elasticsearch/elasticsearch.yml.erb'
     action :nothing
-    notifies :restart, 'service[daemon-reload]', :immediately
+    notifies :run, 'execute[daemon-reload]', :immediately
 end
 
 #enable daemon-reload service to startup at boot
-service 'daemon-reload' do
-    supports :status => true, :restart => true, :reload => true
-    action :enable
+execute 'daemon-reload' do
+    command 'sudo systemctl daemon-reload'
     notifies :restart, 'service[elasticsearch.service]', :immediately
 end
 
@@ -57,6 +56,13 @@ execute 'check_elasticsearch_port_9200' do
     action :nothing
 end
 
+#change elastic user password
+execute 'change_elastic_user_password' do 
+    # credentials = ['elastic'=>'elastic', 'kibana'=>'kibana', 'logstash_system' => 'logstash', 'apm_system' => 'apmsystem', 'remote_monitor_user'=>'monitor', 'beats_system' => 'beats'];
+    command 'curl -XPUT -u elastic:changeme 127.0.0.1:9200/_xpack/security/user/elastic/_password pretty -H Content-Type: application/json -d {"password": "elastic"}'
+    action :run
+end
+
 
 =begin
     @todo make more idempotency, currentlty applies even when the ports are already enabled 
@@ -66,7 +72,7 @@ end
 service 'firewalld' do 
     supports :status => true, :restart => true, :reload => true
     action [ :enable, :start ]
-    notifies :restart, 'service[daemon-reload]', :immediately
+    notifies :run, 'execute[daemon-reload]', :immediately
 end
 
 # not required as the install of elastic opens that port automatically
