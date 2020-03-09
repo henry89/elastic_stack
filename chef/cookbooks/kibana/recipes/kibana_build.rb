@@ -36,7 +36,7 @@ end
 service 'kibana.service' do
     supports :status => true, :restart => true, :reload => true
     action :enable
-    subscribes :reload, 'template[/etc/kibana/kibana.yml]', :immediately
+    subscribes :restart, 'template[/etc/kibana/kibana.yml]', :immediately
 end
 
 

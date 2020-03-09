@@ -52,7 +52,7 @@ end
 
 #checks elastic is running
 execute 'check_elasticsearch_port_9200' do 
-    command 'curl -XGET  127.0.0.1:9200?pretty'
+    command 'curl -XGET 127.0.0.1:9200?pretty'
     action :nothing
 end
 

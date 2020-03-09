@@ -59,11 +59,33 @@ template '/etc/logstash/jvm.options' do
     notifies :restart, 'service[logstash.service]', :immediately
 end
 
+#install filebeat
+execute 'install_Filebeat' do 
+    command 'sudo yum install filebeat -y'
+    notifies :create, 'template[/etc/filebeat/filebeat.yml]', :immediately
+end 
+
+#edit filebeat yml
+template '/etc/filebeat/filebeat.yml' do 
+    source 'etc/filebeat/filbeat.yml.erb'
+    action :nothing
+    notifies :create, 'template[/etc/logstash/conf.d/auditbeat.conf]', :immediately
+end
+
 #configure logstash for filebeat input
 template '/etc/logstash/conf.d/auditbeat.conf' do
     source 'etc/logstash/conf.d/auditbeat.conf.erb'
     action :create
+    notifies :restart, 'service[filebeat.service]', :immediately
 end
+
+#restart filebeat service
+service 'filebeat.service' do
+    supports :status => true, :restart => true, :reload => true
+    action :enable
+    subscribes :restart, 'template[/etc/filebeat/filebeat.yml]', :immediately
+end
+
 
 #enable firewalld and/or reload settings, triggers after logstash install
 service 'firewalld' do 
